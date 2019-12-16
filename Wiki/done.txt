@@ -1,0 +1,12 @@
+Cake:
+Home: https://cakebuild.net/
+Repo: https://github.com/cake-build/example
+
+Install Cake in IDE:
+https://medium.com/about-coding/introduction-to-build-automation-with-cake-c-make-88d8063b70c4
+1. In Visual Studio 2017, go to tools => Extensions and Updates, then online search for Cake
+
+Buid > Cake Build >  Install PowerShell bootstrapper 
+build.ps1 will be added to the root directory
+add build.cake to the add directory
+Open PowerShell from root directory and run .\build.ps1

@@ -1,0 +1,9 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\bin\Release\netcoreapp2.1\Utility.Core.deps.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\bin\Release\netcoreapp2.1\Utility.Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\bin\Release\netcoreapp2.1\Utility.Core.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.csprojAssemblyReference.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.csproj.CoreCompileInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.AssemblyInfoInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.AssemblyInfo.cs
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Utility.Core\obj\Release\netcoreapp2.1\Utility.Core.pdb

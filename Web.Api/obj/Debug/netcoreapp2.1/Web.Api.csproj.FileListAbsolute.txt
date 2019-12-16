@@ -1,0 +1,14 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Web.Api.deps.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Web.Api.runtimeconfig.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Web.Api.runtimeconfig.dev.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Web.Api.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Web.Api.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.csprojAssemblyReference.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.csproj.CoreCompileInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.RazorAssemblyInfo.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.RazorAssemblyInfo.cs
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.AssemblyInfoInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.AssemblyInfo.cs
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.RazorTargetAssemblyInfo.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.pdb

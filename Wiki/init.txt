@@ -1,0 +1,14 @@
+Started:
+--------
+https://medium.com/about-coding/introduction-to-build-automation-with-cake-c-make-88d8063b70c4
+https://garywoodfine.com/how-to-write-a-cake-build-script-for-asp-net-core-project/
+
+All:
+----
+https://andrewlock.net/building-asp-net-core-apps-using-cake-in-docker/
+https://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/
+https://medium.com/@dmitriy.litichevskiy/cake-and-net-core-we-must-go-deeper-e51102dfa787
+
+Test:
+-----
+https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2

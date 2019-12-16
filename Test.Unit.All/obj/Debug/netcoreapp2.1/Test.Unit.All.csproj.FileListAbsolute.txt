@@ -1,0 +1,14 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\Test.Unit.All.deps.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\Test.Unit.All.runtimeconfig.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\Test.Unit.All.runtimeconfig.dev.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\Test.Unit.All.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\bin\Debug\netcoreapp2.1\Test.Unit.All.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.csprojAssemblyReference.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.csproj.CoreCompileInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.AssemblyInfoInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.AssemblyInfo.cs
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.All\obj\Debug\netcoreapp2.1\Test.Unit.All.pdb

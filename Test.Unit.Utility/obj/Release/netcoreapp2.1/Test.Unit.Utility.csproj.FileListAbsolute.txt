@@ -1,0 +1,14 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\NUnit3.TestAdapter.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\NUnit3.TestAdapter.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\nunit.engine.netstandard.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Test.Unit.Utility.deps.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Test.Unit.Utility.runtimeconfig.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Test.Unit.Utility.runtimeconfig.dev.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Test.Unit.Utility.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Test.Unit.Utility.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.csprojAssemblyReference.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.csproj.CoreCompileInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.AssemblyInfoInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.AssemblyInfo.cs
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.pdb
