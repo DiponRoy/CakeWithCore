@@ -12,3 +12,12 @@ https://medium.com/@dmitriy.litichevskiy/cake-and-net-core-we-must-go-deeper-e51
 Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
+
+
+Angular:
+--------
+https://stackoverflow.com/questions/47344636/cake-build-angular-application-to-deploy-to-azure
+
+Good To Read:
+-------------
+Angualr In Visual Studio: https://medium.com/@levifuller/building-an-angular-application-with-asp-net-core-in-visual-studio-2017-visualized-f4b163830eaa

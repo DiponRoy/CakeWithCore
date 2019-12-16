@@ -5,10 +5,8 @@ var configuration = Argument("Configuration", "Release");
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
+
 var publishPath = "./Publish";
-
-var publishDirectory = Directory(publishPath);
-
 
 var unitTestProjects = GetFiles(rootPath +"/Test.Unit.*/**/*.csproj");
 var unitTestResultDirectory = Directory(publishPath +"/Results/UnitTest");
@@ -17,7 +15,7 @@ var unitTestResultDirectory = Directory(publishPath +"/Results/UnitTest");
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectory(publishDirectory);
+        CleanDirectory(Directory(publishPath));
     });
 
 // Run dotnet restore to restore all package references.
@@ -79,6 +77,15 @@ Task("Publish")
             {
                 Configuration = configuration,
                 OutputDirectory = Directory(publishPath +"/Web.Api"),
+                ArgumentCustomization = args => args.Append("--no-restore"),
+            });
+
+		DotNetCorePublish(
+            rootPath +"/Web.Ui.Angular/Web.Ui.Angular.csproj",
+            new DotNetCorePublishSettings()
+            {
+                Configuration = configuration,
+                OutputDirectory = Directory(publishPath +"/Web.Ui"),
                 ArgumentCustomization = args => args.Append("--no-restore"),
             });
 
