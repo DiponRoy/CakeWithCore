@@ -1,0 +1,11 @@
+IDE:
+----
+1. Visual Studio 2017
+2. Visual Studio Code 1.41
+
+Environment:
+------------
+Windows			10(x64)		(systeminfo)
+Node.js			v10.16.1	(node -v)
+npm				6.9.0		(npm -v)
+Angular CLI		8.2.0		(ng v)
