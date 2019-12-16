@@ -4,12 +4,15 @@ var configuration = Argument("Configuration", "Release");
 
 Information($"Running target {target} in configuration {configuration}");
 
-var publishDirectory = Directory("./publish");
-var webAllpublishDirectory = Directory("./publish/Web.All");
+var rootPath = ".";
+var publishPath = "./Publish";
+
+var publishDirectory = Directory(publishPath);
+var webAllpublishDirectory = Directory(publishPath +"/Web.All");
 
 
-var unitTestProjects = GetFiles("./Test.Unit.*/**/*.csproj");
-var unitTestResultDirectory = Directory("./publish/Results/UnitTest");
+var unitTestProjects = GetFiles(rootPath +"/Test.Unit.*/**/*.csproj");
+var unitTestResultDirectory = Directory(publishPath +"/Results/UnitTest");
 
 // Deletes the contents of the Artifacts folder if it contains anything from a previous build.
 Task("Clean")
@@ -29,7 +32,7 @@ Task("Restore")
  Task("Build")
     .Does(() =>
     {
-        DotNetCoreBuild(".",
+        DotNetCoreBuild(rootPath,
             new DotNetCoreBuildSettings()
             {
                 Configuration = configuration,
@@ -63,7 +66,7 @@ Task("PublishWeb")
     .Does(() =>
     {
         DotNetCorePublish(
-            "./Web.All/Web.All.csproj",
+            rootPath +"/Web.All/Web.All.csproj",
             new DotNetCorePublishSettings()
             {
                 Configuration = configuration,
