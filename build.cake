@@ -8,7 +8,6 @@ var rootPath = ".";
 var publishPath = "./Publish";
 
 var publishDirectory = Directory(publishPath);
-var webAllpublishDirectory = Directory(publishPath +"/Web.All");
 
 
 var unitTestProjects = GetFiles(rootPath +"/Test.Unit.*/**/*.csproj");
@@ -61,8 +60,8 @@ Task("Test")
         }
     });
 
-// Publish the app to the /dist folder
-Task("PublishWeb")
+// Publish the app to the /Publish folder
+Task("Publish")
     .Does(() =>
     {
         DotNetCorePublish(
@@ -70,9 +69,29 @@ Task("PublishWeb")
             new DotNetCorePublishSettings()
             {
                 Configuration = configuration,
-                OutputDirectory = webAllpublishDirectory,
+                OutputDirectory = Directory(publishPath +"/Web.All"),
                 ArgumentCustomization = args => args.Append("--no-restore"),
             });
+
+		DotNetCorePublish(
+            rootPath +"/Web.Api/Web.Api.csproj",
+            new DotNetCorePublishSettings()
+            {
+                Configuration = configuration,
+                OutputDirectory = Directory(publishPath +"/Web.Api"),
+                ArgumentCustomization = args => args.Append("--no-restore"),
+            });
+
+		DotNetCorePublish(
+            rootPath +"/Cons.All/Cons.All.csproj",
+            new DotNetCorePublishSettings()
+            {
+                Configuration = configuration,
+                OutputDirectory = Directory(publishPath +"/Cons.All"),
+                //ArgumentCustomization = args => args.Append("--no-restore"),
+				ArgumentCustomization = args => args.Append("-r win10-x64"),
+            });
+
     });
 
 // A meta-task that runs all the steps to Build and Test the app
@@ -86,7 +105,7 @@ Task("BuildAndTest")
 // to run everything starting from Clean, all the way up to Publish.
 Task("Default")
     .IsDependentOn("BuildAndTest")
-    .IsDependentOn("PublishWeb");
+    .IsDependentOn("Publish");
 
 // Executes the task specified in the target argument.
 RunTarget(target);
