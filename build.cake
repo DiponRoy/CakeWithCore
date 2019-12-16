@@ -99,6 +99,18 @@ Task("Publish")
 				ArgumentCustomization = args => args.Append("-r win10-x64"),
             });
 
+
+		NuGetPack(
+            rootPath +"/Utility.Core/Utility.Core.csproj",
+			new NuGetPackSettings
+			{
+				OutputDirectory = Directory(publishPath +"/Utility.Core"),
+				Properties = new Dictionary<string, string>
+				{
+					{ "Configuration", configuration }
+				}
+			});
+
     });
 
 // A meta-task that runs all the steps to Build and Test the app

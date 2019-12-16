@@ -18,6 +18,11 @@ Angular:
 --------
 https://stackoverflow.com/questions/47344636/cake-build-angular-application-to-deploy-to-azure
 
+Nuget:
+------
+https://rimdev.io/dotnet-full-framework-build-test-and-deploy-using-cake-and-appveyor/
+https://cakebuild.net/api/Cake.Common.Tools.NuGet/NuGetAliases/EF4ED944
+
 Good To Read:
 -------------
 Angualr In Visual Studio: https://medium.com/@levifuller/building-an-angular-application-with-asp-net-core-in-visual-studio-2017-visualized-f4b163830eaa

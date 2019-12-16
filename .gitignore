@@ -4,4 +4,5 @@ bin
 obj
 *.suo
 *.user
-/Web.Ui.Angular/wwwroot
+/Web.Ui.Angular
+/wwwroot
