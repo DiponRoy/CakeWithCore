@@ -104,11 +104,30 @@ Task("Publish")
             rootPath +"/Utility.Core/Utility.Core.csproj",
 			new NuGetPackSettings
 			{
-				OutputDirectory = Directory(publishPath +"/Utility.Core"),
+				OutputDirectory = Directory(publishPath +"/NuGet.Utility.Core"),
 				Properties = new Dictionary<string, string>
 				{
 					{ "Configuration", configuration }
-				}
+				},
+
+				Id                      = "TestNuGet",
+				Version                 = "0.0.0.1",
+				Title                   = "The tile of the package",
+				Authors                 = new[] {"Dipon Roy"},
+				Owners                  = new[] {"Dipon Roy"},
+				Description             = "The description of the package",
+				Summary                 = "Excellent summary of what the package does",
+				ProjectUrl              = new Uri("https://github.com/SomeUser/TestNuGet/"),
+				IconUrl                 = new Uri("http://cdn.rawgit.com/SomeUser/TestNuGet/master/icons/testNuGet.png"),
+				LicenseUrl              = new Uri("https://github.com/SomeUser/TestNuGet/blob/master/LICENSE.md"),
+				Copyright               = "Some company 2015",
+				ReleaseNotes            = new [] {"Bug fixes", "Issue fixes", "Typos"},
+				Tags                    = new [] {"Cake", "Script", "Build"},
+				RequireLicenseAcceptance= false,
+				Symbols                 = false,
+				NoPackageAnalysis       = true,
+				Files                   = new [] { new NuSpecContent {Source = "bin/TestNuGet.dll", Target = "bin"} },
+				BasePath                = "./src/TestNuGet/bin/release",
 			});
 
     });
