@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Utility", "Test.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Api", "Web.Api\Web.Api.csproj", "{9340FD97-80B1-4E43-B091-561E9E13D8F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Ui.Angular", "Web.Ui.Angular\Web.Ui.Angular.csproj", "{C4B7C68C-CC77-4815-BBF3-1A9A80E9F432}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9340FD97-80B1-4E43-B091-561E9E13D8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9340FD97-80B1-4E43-B091-561E9E13D8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9340FD97-80B1-4E43-B091-561E9E13D8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B7C68C-CC77-4815-BBF3-1A9A80E9F432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B7C68C-CC77-4815-BBF3-1A9A80E9F432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B7C68C-CC77-4815-BBF3-1A9A80E9F432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B7C68C-CC77-4815-BBF3-1A9A80E9F432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
