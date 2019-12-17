@@ -17,6 +17,7 @@ https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake
 Angular:
 --------
 https://stackoverflow.com/questions/47344636/cake-build-angular-application-to-deploy-to-azure
+https://github.com/IFRCGo/cbs/blob/master/Build/build.cake
 
 Nuget:
 ------
