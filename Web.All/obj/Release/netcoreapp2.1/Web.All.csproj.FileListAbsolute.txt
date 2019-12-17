@@ -30,3 +30,6 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Release\netcoreapp
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Release\netcoreapp2.1\Web.All.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Release\netcoreapp2.1\Web.All.pdb
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Release\netcoreapp2.1\Web.All.csproj.CopyComplete
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Release\netcoreapp2.1\project.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Release\netcoreapp2.1\Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Release\netcoreapp2.1\Core.pdb

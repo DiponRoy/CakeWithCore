@@ -12,3 +12,7 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.RazorTargetAssemblyInfo.cache
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\project.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\bin\Debug\netcoreapp2.1\Core.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.Api\obj\Debug\netcoreapp2.1\Web.Api.csproj.CopyComplete

@@ -1,3 +1,6 @@
+#tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
+#addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
+
 // Target - The task you want to start. Runs the Default task if not specified.
 var target = Argument("Target", "Default");
 var configuration = Argument("Configuration", "Release");
@@ -7,8 +10,13 @@ Information($"Running target {target} in configuration {configuration}");
 var rootPath = ".";
 var publishPath = "." +"/Publish";
 
-var unitTestProjects = GetFiles(rootPath +"/Test.Unit.*/**/*.csproj");
-var unitTestResultDirectory = Directory(publishPath +"/Results/UnitTest");
+var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
+var unitTestResultPath = publishPath +"/Results/UnitTest";
+
+
+var projectVersionFilePattern = publishPath +"/**/project.json";
+var projectVersionTag = "pvn-0.0.0";
+
 
 // Deletes the contents of the Artifacts folder if it contains anything from a previous build.
 Task("Clean")
@@ -41,6 +49,7 @@ Task("Restore")
 Task("Test")
     .Does(() =>
     {
+        var unitTestProjects = GetFiles(unitTestProjectPattern);
         foreach(var project in unitTestProjects)
         {
             Information("Testing project " + project);
@@ -49,7 +58,7 @@ Task("Test")
                 new DotNetCoreTestSettings()
                 {
                     Configuration = configuration,
-					ResultsDirectory = unitTestResultDirectory,
+					ResultsDirectory = Directory(unitTestResultPath),
                     NoBuild = true,
                     //ArgumentCustomization = args => args.Append("--no-restore"),	/*does nothing*/
 					ArgumentCustomization = args => args.Append("-l trx")
@@ -131,6 +140,25 @@ Task("Publish")
 
     });
 
+// add project version from git branch to project.json after publish
+Task("Version")
+    .Does(() => {
+        GitVersion(new GitVersionSettings{
+            UpdateAssemblyInfo = true,
+            OutputType = GitVersionOutput.BuildServer
+        });
+        GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        //Information(versionInfo.NuGetVersion);
+        // Update project.json files after publish
+        var projectVersonFiles = GetFiles(projectVersionFilePattern);
+        foreach(var projectJson in projectVersonFiles)
+        {
+            var updatedProjectJson = FileReadText(projectJson)
+                .Replace(projectVersionTag, versionInfo.NuGetVersion);
+            FileWriteText(projectJson, updatedProjectJson);
+        }
+    });
+
 // A meta-task that runs all the steps to Build and Test the app
 Task("BuildAndTest")
     .IsDependentOn("Clean")
@@ -142,7 +170,8 @@ Task("BuildAndTest")
 // to run everything starting from Clean, all the way up to Publish.
 Task("Default")
     .IsDependentOn("BuildAndTest")
-    .IsDependentOn("Publish");
+    .IsDependentOn("Publish")
+    .IsDependentOn("Version");
 
 // Executes the task specified in the target argument.
 RunTarget(target);
