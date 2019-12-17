@@ -5,8 +5,7 @@ var configuration = Argument("Configuration", "Release");
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
-
-var publishPath = "./Publish";
+var publishPath = "." +"/Publish";
 
 var unitTestProjects = GetFiles(rootPath +"/Test.Unit.*/**/*.csproj");
 var unitTestResultDirectory = Directory(publishPath +"/Results/UnitTest");
