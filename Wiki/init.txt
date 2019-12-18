@@ -12,6 +12,7 @@ https://medium.com/@dmitriy.litichevskiy/cake-and-net-core-we-must-go-deeper-e51
 Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
+https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
 
 
 Angular:

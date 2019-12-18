@@ -90,7 +90,7 @@ Task("Test-Backend")
         {
             Information("Testing project " + project);
             DotNetCoreTest(
-                project.ToString(),
+                project.FullPath,
                 new DotNetCoreTestSettings()
                 {
                     Configuration = configuration,
