@@ -14,6 +14,15 @@ Test:
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
 https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
 
+DotNetCoreTest can process only one .csproj
+NUnit3 can process list of .csproj
+
+Test Cover:
+-----------
+https://cakebuild.net/api/Cake.Common.Tools.OpenCover/OpenCoverAliases/191C133A
+https://tpodolak.com/blog/2017/10/12/net-core-calculating-code-coverage-opencover-windows/
+http://high5devs.com/2017/10/code-coverage-com-csharp-opencover-reportgenerator-e-cake/
+
 
 Angular:
 --------
