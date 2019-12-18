@@ -1,5 +1,6 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
+#addin "nuget:?package=Cake.Npm&version=0.17.0"
 
 // Target - The task you want to start. Runs the Default task if not specified.
 var target = Argument("Target", "Default");
@@ -12,6 +13,8 @@ var publishPath = "." +"/Publish";
 
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
 var unitTestResultPath = publishPath +"/Results/UnitTest";
+
+var angularFolderDir = Directory("." +"/Web.Ui.Angular/app");
 
 
 var projectVersionFilePattern = publishPath +"/**/project.json";
@@ -32,8 +35,8 @@ Task("Restore")
         DotNetCoreRestore();
     });
 
-// Build using the build configuration specified as an argument.
- Task("Build")
+// Build c# code using the build configuration specified as an argument.
+ Task("Build-Backend")
     .Does(() =>
     {
         DotNetCoreBuild(rootPath,
@@ -44,9 +47,41 @@ Task("Restore")
             });
     });
 
+// Build angular.
+Task("Build-Frontend")
+    .Does(() =>
+    {
+        //Install NPM packages
+        var npmInstallSettings = new NpmInstallSettings {
+        WorkingDirectory = angularFolderDir,
+        LogLevel = NpmLogLevel.Warn,
+        ArgumentCustomization = args => args.Append("--no-save")
+        };
+        NpmInstall(npmInstallSettings);
+
+        //Build Angular frontend project using Angular cli
+        var runSettings = new NpmRunScriptSettings {
+        ScriptName = "ng",
+        WorkingDirectory = angularFolderDir,
+        LogLevel = NpmLogLevel.Warn
+        };
+        runSettings.Arguments.Add("build");
+        // runSettings.Arguments.Add("--prod");
+        // runSettings.Arguments.Add("--build-optimizer");
+        // runSettings.Arguments.Add("--progress false");
+        NpmRunScript(runSettings);
+    });
+
+
+//Build all
+Task("Build")
+    .IsDependentOn("Build-Backend")
+    .IsDependentOn("Build-Frontend");
+
+
 // Look under a 'Tests' folder and run dotnet test against all of those projects.
 // Then drop the XML test results file in the Artifacts folder at the root.
-Task("Test")
+Task("Test-Backend")
     .Does(() =>
     {
         var unitTestProjects = GetFiles(unitTestProjectPattern);
@@ -65,6 +100,19 @@ Task("Test")
                 });
         }
     });
+
+Task("Test-Frontend")
+    .IsDependentOn("Build-Frontend")
+    .Does(() =>
+    {
+        // TODO: Set up Jasmine + Karma + Headless Chrome properly
+        Information("Frontend testing framework not yet configured. Skipping this step.");
+    });
+
+//Test all
+Task("Test")
+    .IsDependentOn("Test-Backend")
+    .IsDependentOn("Test-Frontend");
 
 // Publish the app to the /Publish folder
 Task("Publish")
