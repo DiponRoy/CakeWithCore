@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace Test.Unit.NUnit
 {
-    public class Tests
+    public class SampleTest
     {
         [SetUp]
         public void Setup()
