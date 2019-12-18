@@ -18,7 +18,8 @@ var angularFolderDir = Directory("." +"/Web.Ui.Angular/app");
 
 
 var projectVersionFilePattern = publishPath +"/**/project.json";
-var projectVersionTag = "pvn-0.0.0";
+var projectVersionTag = "pvn-x.x.x";
+var commitShaTag = "commit-sha-x";
 
 
 // Deletes the contents of the Artifacts folder if it contains anything from a previous build.
@@ -156,6 +157,7 @@ Task("Publish")
             });
 
 
+        /*create nuget*/
 		NuGetPack(
             rootPath +"/Utility.Core/Utility.Core.csproj",
 			new NuGetPackSettings
@@ -197,12 +199,14 @@ Task("Version")
         });
         GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
         //Information(versionInfo.NuGetVersion);
+        //Information(versionInfo.Sha);
         // Update project.json files after publish
         var projectVersonFiles = GetFiles(projectVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
         {
-            var updatedProjectJson = FileReadText(projectJson)
-                .Replace(projectVersionTag, versionInfo.NuGetVersion);
+            var updatedProjectJson = FileReadText(projectJson);
+            updatedProjectJson = updatedProjectJson.Replace(projectVersionTag, versionInfo.NuGetVersion);
+            updatedProjectJson = updatedProjectJson.Replace(commitShaTag, versionInfo.Sha);
             FileWriteText(projectJson, updatedProjectJson);
         }
     });
