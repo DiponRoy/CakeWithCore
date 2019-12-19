@@ -1,6 +1,7 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
 #tool "nuget:?package=OpenCover&version=4.7.922"
 //#tool "nuget:?package=ReportGenerator&version=4.3.9"
+#tool "nuget:?package=ReportGenerator&version=3.1.2"
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
 #addin "nuget:?package=Cake.Npm&version=0.17.0"
 
@@ -95,8 +96,8 @@ Task("Test-Backend")
             SkipAutoProps = true,
             //MergeByHash = true,
         }
-        //.WithFilter("+[*]*") /*all*/ 
-        .WithFilter("+[Utility.*]*")
+        .WithFilter("+[*]*") /*all*/ 
+        //.WithFilter("+[Utility.*]*")
         .WithFilter("-[Test.*]*");
         var dotNetCoreTestSettings= new DotNetCoreTestSettings()
         {
@@ -114,6 +115,8 @@ Task("Test-Backend")
             /*test cover report*/
             OpenCover(context => { context.DotNetCoreTest(project.FullPath, dotNetCoreTestSettings); }, unitTestCoverageResultFilePath, openCoverSettings);
         }
+
+        ReportGenerator(unitTestCoverageResultFilePath, publishPath);
     });
 	
  
