@@ -1,5 +1,6 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
 #tool "nuget:?package=OpenCover&version=4.7.922"
+//#tool "nuget:?package=ReportGenerator&version=4.3.9"
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
 #addin "nuget:?package=Cake.Npm&version=0.17.0"
 
@@ -14,6 +15,7 @@ var publishPath = "." +"/Publish";
 
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
 var unitTestResultPath = publishPath +"/Results/UnitTest";
+var unitTestCoverageResultFilePath = new FilePath(unitTestResultPath + "/CodeCoverage.xml");
 
 var angularFolderDir = Directory("." +"/Web.Ui.Angular/app");
 
@@ -86,21 +88,39 @@ Task("Build")
 Task("Test-Backend")
     .Does(() =>
     {
+        var openCoverSettings = new OpenCoverSettings
+        {
+            OldStyle = true,
+            MergeOutput = true,
+            SkipAutoProps = true,
+            //MergeByHash = true,
+        }
+        //.WithFilter("+[*]*") /*all*/ 
+        .WithFilter("+[Utility.*]*")
+        .WithFilter("-[Test.*]*");
+        var dotNetCoreTestSettings= new DotNetCoreTestSettings()
+        {
+            Configuration = configuration,
+            ResultsDirectory = Directory(unitTestResultPath),
+            NoBuild = true,
+            ArgumentCustomization = args => args.Append("-l trx")
+        };
         var unitTestProjects = GetFiles(unitTestProjectPattern);
         foreach(var project in unitTestProjects)
         {
             Information("Testing project " + project);
-            DotNetCoreTest(
-                project.FullPath,
-                new DotNetCoreTestSettings()
-                {
-                    Configuration = configuration,
-					ResultsDirectory = Directory(unitTestResultPath),
-                    NoBuild = true,
-                    //ArgumentCustomization = args => args.Append("--no-restore"),	/*does nothing*/
-					ArgumentCustomization = args => args.Append("-l trx")
-                });
+            /*only test and report*/
+            //DotNetCoreTest(project.FullPath, dotNetCoreTestSettings);
+            /*test cover report*/
+            OpenCover(context => { context.DotNetCoreTest(project.FullPath, dotNetCoreTestSettings); }, unitTestCoverageResultFilePath, openCoverSettings);
         }
+    });
+	
+ 
+Task("CodeCoverage")
+    .Does(() =>
+    {
+        //ReportGenerator(unitTestCoverageResultFilePath, publishPath);
     });
 
 Task("Test-Frontend")
@@ -223,6 +243,7 @@ Task("BuildAndTest")
 // to run everything starting from Clean, all the way up to Publish.
 Task("Default")
     .IsDependentOn("BuildAndTest")
+    .IsDependentOn("CodeCoverage")
     .IsDependentOn("Publish")
     .IsDependentOn("Version");
 

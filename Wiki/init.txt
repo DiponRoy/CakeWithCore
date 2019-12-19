@@ -20,6 +20,7 @@ NUnit3 can process list of .csproj
 Test Cover:
 -----------
 https://cakebuild.net/api/Cake.Common.Tools.OpenCover/OpenCoverAliases/191C133A
+https://geoffhudik.com/tech/2017/11/17/test-coverage-with-opencover-xunit-cake-and-teamcity/
 https://tpodolak.com/blog/2017/10/12/net-core-calculating-code-coverage-opencover-windows/
 http://high5devs.com/2017/10/code-coverage-com-csharp-opencover-reportgenerator-e-cake/
 
