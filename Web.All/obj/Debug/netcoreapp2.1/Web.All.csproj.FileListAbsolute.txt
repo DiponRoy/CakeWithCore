@@ -1,3 +1,4 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\project.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.deps.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.runtimeconfig.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.runtimeconfig.dev.json
@@ -5,6 +6,8 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.pdb
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.Views.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Web.All.Views.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Core.pdb
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.csprojAssemblyReference.cache
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.csproj.CoreCompileInputs.cache
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.RazorAssemblyInfo.cache
@@ -27,9 +30,6 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.RazorTargetAssemblyInfo.cache
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.RazorTargetAssemblyInfo.cs
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.Views.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.csproj.CopyComplete
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.pdb
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\obj\Debug\netcoreapp2.1\Web.All.csproj.CopyComplete
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\project.json
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Core.dll
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Web.All\bin\Debug\netcoreapp2.1\Core.pdb

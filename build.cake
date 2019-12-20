@@ -14,15 +14,19 @@ Information($"Running target {target} in configuration {configuration}");
 var rootPath = ".";
 var publishPath = "." +"/Publish";
 
+var auditPath = publishPath +"/_audit";
+
+var auditResultPath = auditPath +"/Results";
+var unitTestResultPath = auditResultPath +"/UnitTest";
+var codeCoverResultPath = auditResultPath +"/CodeCover";
+var unitTestCoverageResultFilePath = new FilePath(codeCoverResultPath + "/CodeCoverage.xml");
+
+var auditReportPath = auditPath +"/Reports";
+var unitTestReportPath = auditReportPath +"/UnitTest";
+var codeCoverReportPath = auditReportPath +"/CodeCover";
+
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
-var unitTestPath = publishPath +"/UnitTest";
-var unitTestResultPath = unitTestPath +"/Results";
-var unitTestCoverageResultFilePath = new FilePath(unitTestResultPath + "/CodeCoverage.xml");
-
-var unitTestReportPath = unitTestPath +"/Reports";
-var codeCoverReportPath = unitTestReportPath +"/CodeCover";
-
-var angularFolderDir = Directory("." +"/Web.Ui.Angular/app");
+var angularFolderDir = Directory(rootPath +"/Web.Ui.Angular/app");
 
 
 var projectVersionFilePattern = publishPath +"/**/project.json";
@@ -45,7 +49,7 @@ public void CreateOrCleanDirectory(string path)
 }
 
 
-// Deletes the contents of the Artifacts folder if it contains anything from a previous build.
+// Deletes the contents of the Publish folder if it contains anything from a previous build.
 Task("Clean")
     .Does(() =>
     {
@@ -108,8 +112,9 @@ Task("Build-Frontend")
 
 //Build all
 Task("Build")
-    .IsDependentOn("Build-Backend")
-    .IsDependentOn("Build-Frontend");
+    .IsDependentOn("Build-Frontend")
+    .IsDependentOn("Build-Backend");
+
 
 
 // Look under a 'Tests' folder and run dotnet test against all of those projects.
@@ -118,6 +123,7 @@ Task("Test-Backend")
     .Does(() =>
     {
         CreateOrCleanDirectory(unitTestResultPath);     
+        CreateOrCleanDirectory(codeCoverResultPath);     
 
         var openCoverSettings = new OpenCoverSettings
         {
@@ -128,7 +134,8 @@ Task("Test-Backend")
         }
         //.WithFilter("+[*]*") /*all*/ 
         .WithFilter("+[Utility.*]*")
-        .WithFilter("-[Test.*]*");
+        // .WithFilter("-[Test.*]*")
+        ;
         var dotNetCoreTestSettings= new DotNetCoreTestSettings()
         {
             Configuration = configuration,
@@ -277,7 +284,7 @@ Task("BuildAndTest")
 Task("Default")
     .IsDependentOn("BuildAndTest")
     .IsDependentOn("Publish")
-    //.IsDependentOn("Report")
+    .IsDependentOn("Report")
     .IsDependentOn("Version");
 
 // Executes the task specified in the target argument.

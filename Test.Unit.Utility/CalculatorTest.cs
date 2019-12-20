@@ -13,7 +13,8 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            Assert.AreEqual(2, Calculator.Add(1, 1));
+            var value = Calculator.Add(1, 1);
+            Assert.AreEqual(2, value);
         }
     }
 }

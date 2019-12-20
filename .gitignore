@@ -6,3 +6,7 @@ obj
 *.user
 /Web.Ui.Angular
 /wwwroot
+/Test.Unit.MSTest/TestResults
+/Test.Unit.NUnit/TestResults
+/Test.Unit.Utility/TestResults
+/Test.Unit.xUnit/TestResults

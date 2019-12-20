@@ -1,3 +1,4 @@
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\project.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
@@ -6,15 +7,14 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\ne
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Test.Unit.Utility.runtimeconfig.dev.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Test.Unit.Utility.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Test.Unit.Utility.pdb
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.csprojAssemblyReference.cache
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.csproj.CoreCompileInputs.cache
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.AssemblyInfoInputs.cache
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.AssemblyInfo.cs
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.dll
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.pdb
-E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\project.json
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Core.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Utility.Core.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Utility.Core.pdb
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Debug\netcoreapp2.1\Core.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.csprojAssemblyReference.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.csproj.CoreCompileInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.AssemblyInfoInputs.cache
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.AssemblyInfo.cs
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.csproj.CopyComplete
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Debug\netcoreapp2.1\Test.Unit.Utility.pdb
