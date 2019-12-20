@@ -1645,6 +1645,29 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
+      },
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
+      },
+      "Utility.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Utility.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Utility.Core.dll": {}
+        }
       }
     }
   },
@@ -5733,6 +5756,16 @@
         "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xmldocument.nuspec"
       ]
+    },
+    "Core/1.0.0": {
+      "type": "project",
+      "path": "../Core/Core.csproj",
+      "msbuildProject": "../Core/Core.csproj"
+    },
+    "Utility.Core/1.0.0": {
+      "type": "project",
+      "path": "../Utility.Core/Utility.Core.csproj",
+      "msbuildProject": "../Utility.Core/Utility.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5740,6 +5773,7 @@
       "Microsoft.NET.Test.Sdk >= 15.9.0",
       "Microsoft.NETCore.App >= 2.1.0",
       "NUnit3TestAdapter >= 3.11.0",
+      "Utility.Core >= 1.0.0",
       "nunit >= 3.11.0"
     ]
   },
@@ -5772,7 +5806,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Work Stations\\Online Repos\\gitHub\\CakeWithCore\\Utility.Core\\Utility.Core.csproj": {
+              "projectPath": "E:\\Work Stations\\Online Repos\\gitHub\\CakeWithCore\\Utility.Core\\Utility.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -15,8 +15,12 @@ var rootPath = ".";
 var publishPath = "." +"/Publish";
 
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
-var unitTestResultPath = publishPath +"/Results/UnitTest";
+var unitTestPath = publishPath +"/UnitTest";
+var unitTestResultPath = unitTestPath +"/Results";
 var unitTestCoverageResultFilePath = new FilePath(unitTestResultPath + "/CodeCoverage.xml");
+
+var unitTestReportPath = unitTestPath +"/Reports";
+var codeCoverReportPath = unitTestReportPath +"/CodeCover";
 
 var angularFolderDir = Directory("." +"/Web.Ui.Angular/app");
 
@@ -26,11 +30,26 @@ var projectVersionTag = "pvn-x.x.x";
 var commitShaTag = "commit-sha-x";
 
 
+
+public void CreateOrCleanDirectory(string path)
+{
+    var dir = Directory(path);
+    if (!DirectoryExists(dir))
+    {
+        CreateDirectory(dir);
+    }
+    else
+    {
+        CleanDirectory(dir);        
+    }
+}
+
+
 // Deletes the contents of the Artifacts folder if it contains anything from a previous build.
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectory(Directory(publishPath));
+        CreateOrCleanDirectory(publishPath);
     });
 
 // Run dotnet restore to restore all package references.
@@ -89,6 +108,8 @@ Task("Build")
 Task("Test-Backend")
     .Does(() =>
     {
+        CreateOrCleanDirectory(unitTestResultPath);     
+
         var openCoverSettings = new OpenCoverSettings
         {
             OldStyle = true,
@@ -96,8 +117,8 @@ Task("Test-Backend")
             SkipAutoProps = true,
             //MergeByHash = true,
         }
-        .WithFilter("+[*]*") /*all*/ 
-        //.WithFilter("+[Utility.*]*")
+        //.WithFilter("+[*]*") /*all*/ 
+        .WithFilter("+[Utility.*]*")
         .WithFilter("-[Test.*]*");
         var dotNetCoreTestSettings= new DotNetCoreTestSettings()
         {
@@ -115,15 +136,15 @@ Task("Test-Backend")
             /*test cover report*/
             OpenCover(context => { context.DotNetCoreTest(project.FullPath, dotNetCoreTestSettings); }, unitTestCoverageResultFilePath, openCoverSettings);
         }
-
-        ReportGenerator(unitTestCoverageResultFilePath, publishPath);
     });
 	
  
-Task("CodeCoverage")
+Task("Report")
+    .IsDependentOn("Test-Backend")
     .Does(() =>
     {
-        //ReportGenerator(unitTestCoverageResultFilePath, publishPath);
+        CreateOrCleanDirectory(codeCoverReportPath);     
+        ReportGenerator(unitTestCoverageResultFilePath, codeCoverReportPath);
     });
 
 Task("Test-Frontend")
@@ -246,8 +267,8 @@ Task("BuildAndTest")
 // to run everything starting from Clean, all the way up to Publish.
 Task("Default")
     .IsDependentOn("BuildAndTest")
-    .IsDependentOn("CodeCoverage")
     .IsDependentOn("Publish")
+    //.IsDependentOn("Report")
     .IsDependentOn("Version");
 
 // Executes the task specified in the target argument.

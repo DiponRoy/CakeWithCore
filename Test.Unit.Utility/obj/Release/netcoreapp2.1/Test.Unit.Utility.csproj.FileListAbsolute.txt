@@ -12,3 +12,9 @@ E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.AssemblyInfo.cs
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.dll
 E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\project.json
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Utility.Core.dll
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Utility.Core.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\bin\Release\netcoreapp2.1\Core.pdb
+E:\Work Stations\Online Repos\gitHub\CakeWithCore\Test.Unit.Utility\obj\Release\netcoreapp2.1\Test.Unit.Utility.csproj.CopyComplete

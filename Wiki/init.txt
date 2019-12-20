@@ -13,6 +13,8 @@ Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
 https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
+http://blog.stoverud.no/posts/publish-xunit-test-results-in-vsts/
+https://github.com/rndsolutions/trx-merger
 
 DotNetCoreTest can process only one .csproj
 NUnit3 can process list of .csproj
