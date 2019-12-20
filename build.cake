@@ -52,12 +52,29 @@ Task("Clean")
         CreateOrCleanDirectory(publishPath);
     });
 
-// Run dotnet restore to restore all package references.
-Task("Restore")
+// Run dotnet restore to restore all backend package references.
+Task("Restore-Backend")
     .Does(() =>
     {
         DotNetCoreRestore();
     });
+//Install NPM packages    
+Task("Restore-Frontend")
+    .Does(() =>
+    {       
+        var npmInstallSettings = new NpmInstallSettings {
+        WorkingDirectory = angularFolderDir,
+        LogLevel = NpmLogLevel.Warn,
+        ArgumentCustomization = args => args.Append("--no-save")
+        };
+        NpmInstall(npmInstallSettings);
+    });
+
+//Restore all
+Task("Restore")
+    .IsDependentOn("Restore-Backend")
+    .IsDependentOn("Restore-Frontend");
+
 
 // Build c# code using the build configuration specified as an argument.
  Task("Build-Backend")
@@ -75,14 +92,6 @@ Task("Restore")
 Task("Build-Frontend")
     .Does(() =>
     {
-        //Install NPM packages
-        var npmInstallSettings = new NpmInstallSettings {
-        WorkingDirectory = angularFolderDir,
-        LogLevel = NpmLogLevel.Warn,
-        ArgumentCustomization = args => args.Append("--no-save")
-        };
-        NpmInstall(npmInstallSettings);
-
         //Build Angular frontend project using Angular cli
         var runSettings = new NpmRunScriptSettings {
         ScriptName = "ng",
