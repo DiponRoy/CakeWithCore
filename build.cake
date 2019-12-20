@@ -53,6 +53,11 @@ public void CreateOrCleanDirectory(string path)
 Task("Clean")
     .Does(() =>
     {
+        /*CleanDirectories*/
+        CleanDirectories(rootPath + "/**/bin");
+        CleanDirectories(rootPath + "/**/obj");
+        CleanDirectories(rootPath + "/**/TestResults");
+
         CreateOrCleanDirectory(publishPath);
     });
 

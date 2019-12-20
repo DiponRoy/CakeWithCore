@@ -9,6 +9,10 @@ https://andrewlock.net/building-asp-net-core-apps-using-cake-in-docker/
 https://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/
 https://medium.com/@dmitriy.litichevskiy/cake-and-net-core-we-must-go-deeper-e51102dfa787
 
+Clean Solution:
+----------------
+https://stackoverflow.com/questions/43373510/build-all-solutions-within-a-tree-using-cake-c-make
+
 Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
