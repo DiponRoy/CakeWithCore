@@ -18,6 +18,11 @@ Update C# assembly:
 https://stackoverflow.com/questions/40381310/how-to-update-only-version-info-in-assemblyinfo-cs-using-cake
 for core: https://stackoverflow.com/questions/42138418/equivalent-to-assemblyinfo-in-dotnet-core-csproj
 
+Update Angular json:
+--------------------
+"(version)":\s*"[^"]+?([^\/"]+)"
+better "(version)":\s*"((\\"|[^"])*)"
+
 Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2

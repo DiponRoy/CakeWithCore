@@ -8,7 +8,6 @@
 // Target - The task you want to start. Runs the Default task if not specified.
 var target = Argument("Target", "Default");
 var configuration = Argument("Configuration", "Release");
-
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
@@ -292,8 +291,6 @@ Task("Publish")
 Task("Version")
     .Does(() => {
         GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
-        //Information(versionInfo.NuGetVersion);
-        //Information(versionInfo.Sha);
         // Update project.json files after publish
         var projectVersonFiles = GetFiles(publishVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
