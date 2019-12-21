@@ -20,8 +20,7 @@ for core: https://stackoverflow.com/questions/42138418/equivalent-to-assemblyinf
 
 Update Angular json:
 --------------------
-"(version)":\s*"[^"]+?([^\/"]+)"
-better "(version)":\s*"((\\"|[^"])*)"
+"(version)":\s*"((\\"|[^"])*)"
 
 Test:
 -----

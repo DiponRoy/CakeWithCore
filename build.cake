@@ -25,7 +25,8 @@ var unitTestReportPath = auditReportPath +"/UnitTest";
 var codeCoverReportPath = auditReportPath +"/CodeCover";
 
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
-var angularFolderDir = Directory(rootPath +"/Web.Ui.Angular/app");
+var angularFolderPath = rootPath +"/Web.Ui.Angular/app";
+var angualrPackageJsonPath = angularFolderPath +"/package.json";
 
 var projectAssemblyFilesPath = rootPath +"/**/*.csproj";
 var projectVersionFilePath = new FilePath(rootPath +"/Core/project.json");
@@ -81,7 +82,7 @@ Task("Restore-Frontend")
     .Does(() =>
     {       
         var npmInstallSettings = new NpmInstallSettings {
-        WorkingDirectory = angularFolderDir,
+        WorkingDirectory = Directory(angularFolderPath),
         LogLevel = NpmLogLevel.Warn,
         ArgumentCustomization = args => args.Append("--no-save")
         };
@@ -116,6 +117,17 @@ Task("Version-Backend")
         FileWriteText(projectVersionFilePath, updatedProjectJson);                        
    });
 
+Task("Version-Frontend")
+   .Does(() => {
+        string version = Version().NuGetVersion;
+        string value = "version".Quote() +": " +version.Quote();
+        Information(value); 
+        ReplaceRegexInFiles(angualrPackageJsonPath, 
+                    "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"", 
+                    value);                       
+   });
+   
+
 // Build c# code using the build configuration specified as an argument.
  Task("Build-Backend")
     .Does(() =>
@@ -135,7 +147,7 @@ Task("Build-Frontend")
         //Build Angular frontend project using Angular cli
         var runSettings = new NpmRunScriptSettings {
         ScriptName = "ng",
-        WorkingDirectory = angularFolderDir,
+        WorkingDirectory = Directory(angularFolderPath),
         LogLevel = NpmLogLevel.Warn
         };
         runSettings.Arguments.Add("build");
