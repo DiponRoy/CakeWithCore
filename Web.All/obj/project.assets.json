@@ -4334,7 +4334,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Core/1.0.0": {
+      "Core/0.1.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "compile": {
@@ -11794,7 +11794,7 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "Core/1.0.0": {
+    "Core/0.1.0": {
       "type": "project",
       "path": "../Core/Core.csproj",
       "msbuildProject": "../Core/Core.csproj"
@@ -11802,7 +11802,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "Core >= 1.0.0",
+      "Core >= 0.1.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0"
@@ -11813,7 +11813,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "0.1.0",
     "restore": {
       "projectUniqueName": "E:\\Work Stations\\Online Repos\\gitHub\\CakeWithCore\\Web.All\\Web.All.csproj",
       "projectName": "Web.All",
@@ -11865,6 +11865,7 @@
             "version": "[2.1.2, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true

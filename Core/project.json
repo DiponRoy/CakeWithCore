@@ -1,4 +1,6 @@
-﻿{
+{
+  "expectedVersion": "0.1.0",
+  /*set after publish*/
   "version": "pvn-x.x.x",
   "commit": "commit-sha-x"
 }

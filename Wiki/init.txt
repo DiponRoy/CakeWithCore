@@ -13,6 +13,11 @@ Clean Solution:
 ----------------
 https://stackoverflow.com/questions/43373510/build-all-solutions-within-a-tree-using-cake-c-make
 
+Update C# assembly:
+-------------------
+https://stackoverflow.com/questions/40381310/how-to-update-only-version-info-in-assemblyinfo-cs-using-cake
+for core: https://stackoverflow.com/questions/42138418/equivalent-to-assemblyinfo-in-dotnet-core-csproj
+
 Test:
 -----
 https://medium.com/@pavel.sulimau/dotnetcore-xunit-coverlet-reportgenerator-cake-codecoveragereport-1ed4adf408d2
@@ -29,6 +34,10 @@ https://cakebuild.net/api/Cake.Common.Tools.OpenCover/OpenCoverAliases/191C133A
 https://geoffhudik.com/tech/2017/11/17/test-coverage-with-opencover-xunit-cake-and-teamcity/
 https://tpodolak.com/blog/2017/10/12/net-core-calculating-code-coverage-opencover-windows/
 http://high5devs.com/2017/10/code-coverage-com-csharp-opencover-reportgenerator-e-cake/
+
+Report:
+-------
+trx marger: https://github.com/rndsolutions/trx-merger
 
 
 Angular:

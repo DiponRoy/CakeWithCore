@@ -28,10 +28,13 @@ var codeCoverReportPath = auditReportPath +"/CodeCover";
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
 var angularFolderDir = Directory(rootPath +"/Web.Ui.Angular/app");
 
+var projectAssemblyFilesPath = rootPath +"/**/*.csproj";
+var projectVersionFilePath = new FilePath(rootPath +"/Core/project.json");
+var projectVersionTag = "x-pvn-x.x.x";
 
-var projectVersionFilePattern = publishPath +"/**/project.json";
-var projectVersionTag = "pvn-x.x.x";
-var commitShaTag = "commit-sha-x";
+var publishVersionFilePattern = publishPath +"/**/project.json";
+var publishVersionTag = "pvn-x.x.x";
+var publishCommitShaTag = "commit-sha-x";
 
 
 
@@ -48,16 +51,23 @@ public void CreateOrCleanDirectory(string path)
     }
 }
 
+public GitVersion Version()
+{
+    GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+    return versionInfo;
+}
+
 
 // Deletes the contents of the Publish folder if it contains anything from a previous build.
 Task("Clean")
     .Does(() =>
     {
-        /*CleanDirectories*/
-        CleanDirectories(rootPath + "/**/bin");
-        CleanDirectories(rootPath + "/**/obj");
-        CleanDirectories(rootPath + "/**/TestResults");
+        /*clean bin, obj, and unit test results folders*/
+        // CleanDirectories(rootPath + "/**/bin"); /*removing angular cli bin*/
+        // CleanDirectories(rootPath + "/**/obj");
+        //CleanDirectories(rootPath + "/**/TestResults");
 
+        /*clean publish folder*/
         CreateOrCleanDirectory(publishPath);
     });
 
@@ -84,6 +94,28 @@ Task("Restore")
     .IsDependentOn("Restore-Backend")
     .IsDependentOn("Restore-Frontend");
 
+
+Task("Version-Backend")
+   .Does(() => {
+        //no AssemblyInfo.cs file in .net core
+        // GitVersion(new GitVersionSettings{
+        //     UpdateAssemblyInfo = true,
+        //     OutputType = GitVersionOutput.BuildServer
+        // });
+
+        // ReplaceRegexInFiles("./your/AssemblyInfo.cs", 
+        //             "(?<=AssemblyVersion\\(\")(.+?)(?=\"\\))", 
+        //             yourVersion);
+
+        string version = Version().NuGetVersion;
+        ReplaceRegexInFiles(projectAssemblyFilesPath, 
+                    "<Version>(.*)</Version>", 
+                    "<Version>"+version+"</Version>");
+
+        var updatedProjectJson = FileReadText(projectVersionFilePath);
+        updatedProjectJson = updatedProjectJson.Replace(projectVersionTag, version);
+        FileWriteText(projectVersionFilePath, updatedProjectJson);                        
+   });
 
 // Build c# code using the build configuration specified as an argument.
  Task("Build-Backend")
@@ -259,20 +291,16 @@ Task("Publish")
 // add project version from git branch to project.json after publish
 Task("Version")
     .Does(() => {
-        GitVersion(new GitVersionSettings{
-            UpdateAssemblyInfo = true,
-            OutputType = GitVersionOutput.BuildServer
-        });
         GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
         //Information(versionInfo.NuGetVersion);
         //Information(versionInfo.Sha);
         // Update project.json files after publish
-        var projectVersonFiles = GetFiles(projectVersionFilePattern);
+        var projectVersonFiles = GetFiles(publishVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
         {
             var updatedProjectJson = FileReadText(projectJson);
-            updatedProjectJson = updatedProjectJson.Replace(projectVersionTag, versionInfo.NuGetVersion);
-            updatedProjectJson = updatedProjectJson.Replace(commitShaTag, versionInfo.Sha);
+            updatedProjectJson = updatedProjectJson.Replace(publishVersionTag, versionInfo.NuGetVersion);
+            updatedProjectJson = updatedProjectJson.Replace(publishCommitShaTag, versionInfo.Sha);
             FileWriteText(projectJson, updatedProjectJson);
         }
     });
