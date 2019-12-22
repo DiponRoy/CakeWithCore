@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
   /*set after publish*/
-  "publishVersion": "pvn-x.x.x",
-  "publishCommit": "commit-sha-x"
+  "publishVersion": "x.x.x",
+  "publishCommit": "xxxxxxx"
 }
