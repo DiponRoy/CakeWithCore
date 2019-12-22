@@ -1,7 +1,6 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
 #tool "nuget:?package=OpenCover&version=4.7.922"
-//#tool "nuget:?package=ReportGenerator&version=4.3.9"
-#tool "nuget:?package=ReportGenerator&version=3.1.2"
+#tool "nuget:?package=ReportGenerator&version=3.1.2"    /*4.3.9 for .net core 3*/
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
 #addin "nuget:?package=Cake.Npm&version=0.17.0"
 
@@ -28,13 +27,15 @@ var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
 var angularFolderPath = rootPath +"/Web.Ui.Angular/app";
 var angualrPackageJsonPath = angularFolderPath +"/package.json";
 
+var versionJsonRegex = "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"";
+var versionXmlRegex = "<Version>(.*)</Version>";
+
 var projectAssemblyFilesPath = rootPath +"/**/*.csproj";
-var projectVersionFilePath = new FilePath(rootPath +"/Core/project.json");
-var projectVersionTag = "x-pvn-x.x.x";
+var projectVersionFilePath = rootPath +"/Core/project.json";
 
 var publishVersionFilePattern = publishPath +"/**/project.json";
-var publishVersionTag = "pvn-x.x.x";
-var publishCommitShaTag = "commit-sha-x";
+var publishVersionJsonRegex = "\"(publishVersion)\":\\s*\"((\\\\\"|[^\"])*)\"";
+var publishCommitShaJsonRegex = "\"(publishCommit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
 
 
@@ -108,22 +109,29 @@ Task("Version-Backend")
         //             yourVersion);
 
         string version = Version().NuGetVersion;
-        ReplaceRegexInFiles(projectAssemblyFilesPath, 
-                    "<Version>(.*)</Version>", 
-                    "<Version>"+version+"</Version>");
 
-        var updatedProjectJson = FileReadText(projectVersionFilePath);
-        updatedProjectJson = updatedProjectJson.Replace(projectVersionTag, version);
-        FileWriteText(projectVersionFilePath, updatedProjectJson);                        
+        string value = "<Version>"+version+"</Version>";
+        ReplaceRegexInFiles(projectAssemblyFilesPath, 
+                    versionXmlRegex, 
+                    value);
+
+        value = "version".Quote() +": " +version.Quote();
+        Information(value);
+        ReplaceRegexInFiles(projectVersionFilePath, 
+                    versionJsonRegex, 
+                    value);              
+
+        // var updatedProjectJson = FileReadText(projectVersionFilePath);
+        // updatedProjectJson = updatedProjectJson.Replace("x-pvn-x.x.x", version);
+        // FileWriteText(projectVersionFilePath, updatedProjectJson);                        
    });
 
 Task("Version-Frontend")
    .Does(() => {
         string version = Version().NuGetVersion;
         string value = "version".Quote() +": " +version.Quote();
-        Information(value); 
         ReplaceRegexInFiles(angualrPackageJsonPath, 
-                    "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"", 
+                    versionJsonRegex, 
                     value);                       
    });
    
@@ -302,15 +310,30 @@ Task("Publish")
 // add project version from git branch to project.json after publish
 Task("Version")
     .Does(() => {
-        GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        GitVersion versionInfo = Version();
         // Update project.json files after publish
         var projectVersonFiles = GetFiles(publishVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
-        {
-            var updatedProjectJson = FileReadText(projectJson);
-            updatedProjectJson = updatedProjectJson.Replace(publishVersionTag, versionInfo.NuGetVersion);
-            updatedProjectJson = updatedProjectJson.Replace(publishCommitShaTag, versionInfo.Sha);
-            FileWriteText(projectJson, updatedProjectJson);
+        {      
+            string path = projectJson.ToString();
+            string value = "";
+
+            string version = versionInfo.NuGetVersion;
+            value = "publishVersion".Quote() +": " +version.Quote();
+            ReplaceRegexInFiles(path, 
+                        publishVersionJsonRegex, 
+                        value);
+
+            string commit = versionInfo.Sha;
+            value = "publishCommit".Quote() +": " +commit.Quote();
+            ReplaceRegexInFiles(path, 
+                        publishCommitShaJsonRegex, 
+                        value);                       
+
+            // var updatedProjectJson = FileReadText(projectJson);
+            // updatedProjectJson = updatedProjectJson.Replace("pvn-x.x.x", versionInfo.NuGetVersion);
+            // updatedProjectJson = updatedProjectJson.Replace("commit-sha-x", versionInfo.Sha);
+            // FileWriteText(projectJson, updatedProjectJson);
         }
     });
 
