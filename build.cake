@@ -10,6 +10,7 @@ var configuration = Argument("Configuration", "Release");
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
+var backendProjectPattern = rootPath +"/**/*.csproj";
 var publishPath = "." +"/Publish";
 
 var auditPath = publishPath +"/_audit";
@@ -68,6 +69,19 @@ Task("Clean")
         // CleanDirectories(rootPath + "/**/bin"); /*removing angular cli bin*/
         // CleanDirectories(rootPath + "/**/obj");
         //CleanDirectories(rootPath + "/**/TestResults");
+
+        
+        var paths = GetFiles(backendProjectPattern).Select(x => x.GetDirectory());
+        foreach(var path in paths)
+        {
+            CleanDirectories(path + "/bin");
+            CleanDirectories(path + "/obj");
+        }
+        paths = GetFiles(unitTestProjectPattern).Select(x => x.GetDirectory());
+        foreach(var path in paths)
+        {
+            CleanDirectories(path + "/TestResults");
+        }
 
         /*clean publish folder*/
         CreateOrCleanDirectory(publishPath);
@@ -269,8 +283,8 @@ Task("Publish")
             {
                 Configuration = configuration,
                 OutputDirectory = Directory(publishPath +"/Cons.All"),
-                //ArgumentCustomization = args => args.Append("--no-restore"),
-				ArgumentCustomization = args => args.Append("-r win10-x64"),
+				//ArgumentCustomization = args => args.Append("--no-restore"),
+                ArgumentCustomization = args => args.Append("--runtime win10-x64"),
             });
 
 
@@ -279,12 +293,12 @@ Task("Publish")
             rootPath +"/Utility.Core/Utility.Core.csproj",
 			new NuGetPackSettings
 			{
-				OutputDirectory = Directory(publishPath +"/NuGet.Utility.Core"),
+                //ArgumentCustomization = args => args.Append("-Properties Configuration="+configuration),
 				Properties = new Dictionary<string, string>
 				{
 					{ "Configuration", configuration }
 				},
-
+				OutputDirectory = Directory(publishPath +"/NuGet.Utility.Core"),
 				Id                      = "TestNuGet",
 				Version                 = "0.0.0.1",
 				Title                   = "The tile of the package",
@@ -314,8 +328,8 @@ Task("Version")
         string version = "publishVersion".Quote() +": " +versionInfo.SemVer.Quote();  
         string commit = "publishCommit".Quote() +": " +versionInfo.Sha.Quote();     
         string branchName = "publishBranch".Quote() +": " +versionInfo.BranchName.Quote();
-        // Information(DateTime.Now.ToString("dd-MMM,yyyy HH:mm:ss"));
-        // Information(DateTime.UtcNow.ToString("dd-MMM,yyyy HH:mm:ss"));
+        // Information(DateTime.Now.ToString("dd-MMM,yyyy HH:mm:ss(24)"));
+        // Information(DateTime.UtcNow.ToString("dd-MMM,yyyy HH:mm:ss(24)"));
 
         var projectVersonFiles = GetFiles(publishVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
