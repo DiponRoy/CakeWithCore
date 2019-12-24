@@ -13,7 +13,6 @@ add build.cake to the add directory
 Open PowerShell from root directory and run .\build.ps1
 
 
-1. Set Package version to 0.0.0 for all C# projects
-2. add a project.json file in core project and add referances of core project to all C# projects or target publish projects
-
+1. Set Package version to 0.0.0 for all C# projects, Angualr projects
+2. add a project.json file in all C# projects, Angualr projects
 3. angualr build folder to "dist" to "wwwroot" at angualr.json

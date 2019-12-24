@@ -10,7 +10,13 @@ var configuration = Argument("Configuration", "Release");
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
-var backendProjectPattern = rootPath +"/**/*.csproj";
+var projectDetailFileName = "project.json";
+
+var backendProjectAssemblyName = "*.csproj";
+var backendProjectPattern = rootPath +"/**/" +backendProjectAssemblyName;
+var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/" +backendProjectAssemblyName;
+
+
 var publishPath = "." +"/Publish";
 
 var auditPath = publishPath +"/_audit";
@@ -24,21 +30,37 @@ var auditReportPath = auditPath +"/Reports";
 var unitTestReportPath = auditReportPath +"/UnitTest";
 var codeCoverReportPath = auditReportPath +"/CodeCover";
 
-var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
-var angularFolderPath = rootPath +"/Web.Ui.Angular/ClientApp";
-var angualrPackageJsonPath = angularFolderPath +"/package.json";
+var angularProjectFileName = "package.json";
 
-var versionJsonRegex = "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var versionXmlRegex = "<Version>(.*)</Version>";
-
-var projectAssemblyFilesPath = rootPath +"/**/*.csproj";
-var projectVersionFilePath = rootPath +"/Core/project.json";
+var versionJsonRegex = "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"";
+var commitShaJsonRegex = "\"(commit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
 var publishVersionFilePattern = publishPath +"/**/project.json";
 var publishBranchJsonRegex = "\"(publishBranch)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishVersionJsonRegex = "\"(publishVersion)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishCommitShaJsonRegex = "\"(publishCommit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
+
+public class AngualrProject
+{
+	public string SourceDirectoryPath { get; set; }
+	public string PublishDirectoryPath { get; set; }
+	public string DeployDirectoryPath { get; set; }	
+	public string DeployArchiveDirectoryPath { get; set; }	
+}
+
+List<AngualrProject> angualrProjects = new List<AngualrProject>()
+{
+	new AngualrProject()
+	{
+		SourceDirectoryPath = rootPath +"/Web.Ui.Angular/ClientApp"
+	},
+	new AngualrProject()
+	{
+		SourceDirectoryPath = rootPath +"/Web.All.Angular/ClientApp"
+	}
+};
 
 
 public void CreateOrCleanDirectory(string path)
@@ -66,11 +88,6 @@ Task("Clean")
     .Does(() =>
     {
         /*clean bin, obj, and unit test results folders*/
-        // CleanDirectories(rootPath + "/**/bin"); /*removing angular cli bin*/
-        // CleanDirectories(rootPath + "/**/obj");
-        //CleanDirectories(rootPath + "/**/TestResults");
-
-        
         var paths = GetFiles(backendProjectPattern).Select(x => x.GetDirectory());
         foreach(var path in paths)
         {
@@ -93,16 +110,23 @@ Task("Restore-Backend")
     {
         DotNetCoreRestore();
     });
+
 //Install NPM packages    
 Task("Restore-Frontend")
     .Does(() =>
     {       
-        var npmInstallSettings = new NpmInstallSettings {
-        WorkingDirectory = Directory(angularFolderPath),
-        LogLevel = NpmLogLevel.Warn,
-        ArgumentCustomization = args => args.Append("--no-save")
-        };
-        NpmInstall(npmInstallSettings);
+        //restore npm packages
+        foreach(AngualrProject project in angualrProjects)
+        {
+            Information("Angalr project npm install: " + project.SourceDirectoryPath);
+            var npmInstallSettings = new NpmInstallSettings 
+            {
+                WorkingDirectory = Directory(project.SourceDirectoryPath),
+                LogLevel = NpmLogLevel.Warn,
+                ArgumentCustomization = args => args.Append("--no-save")
+            };
+            NpmInstall(npmInstallSettings);      
+        }
     });
 
 //Restore all
@@ -123,30 +147,46 @@ Task("Version-Backend")
         //             "(?<=AssemblyVersion\\(\")(.+?)(?=\"\\))", 
         //             yourVersion);
 
-        string version = Version().SemVer;
-
-        string value = "<Version>"+version+"</Version>";
-        ReplaceRegexInFiles(projectAssemblyFilesPath, 
-                    versionXmlRegex, 
-                    value);
-
-        value = "version".Quote() +": " +version.Quote();
-        ReplaceRegexInFiles(projectVersionFilePath, 
-                    versionJsonRegex, 
-                    value);              
-
         // var updatedProjectJson = FileReadText(projectVersionFilePath);
         // updatedProjectJson = updatedProjectJson.Replace("x-pvn-x.x.x", version);
-        // FileWriteText(projectVersionFilePath, updatedProjectJson);                        
+        // FileWriteText(projectVersionFilePath, updatedProjectJson);
+
+        GitVersion gitVersion = Version();
+        string version = gitVersion.SemVer;
+        string commit= gitVersion.Sha;
+
+        var paths = GetFiles(backendProjectPattern).Select(x => x.GetDirectory());
+        foreach(var path in paths)
+        {
+            Information("Build version at C# project: " + path);
+
+            string versionXml = "<Version>"+version+"</Version>";
+            string versionJson = "version".Quote() +": " +version.Quote();
+            string commitJson = "commit".Quote() +": " +commit.Quote();     
+
+            /*project.name.csproj*/
+            ReplaceRegexInFiles(path +"/" +backendProjectAssemblyName, versionXmlRegex, versionXml);
+            /*project.json*/
+            ReplaceRegexInFiles(path +"/" +projectDetailFileName, versionJsonRegex, versionJson);
+            ReplaceRegexInFiles(path +"/" +projectDetailFileName, commitShaJsonRegex, commitJson);
+        }                                   
    });
 
 Task("Version-Frontend")
    .Does(() => {
-        string version = Version().SemVer;
-        string value = "version".Quote() +": " +version.Quote();
-        ReplaceRegexInFiles(angualrPackageJsonPath, 
-                    versionJsonRegex, 
-                    value);                       
+        GitVersion versionInfo = Version();
+        string version = "version".Quote() +": " +versionInfo.SemVer.Quote();
+        string commit = "commit".Quote() +": " +versionInfo.Sha.Quote();     
+
+        foreach(AngualrProject project in angualrProjects)
+        {
+            Information("Build version at angular project: " + project.SourceDirectoryPath);
+            /*package.json*/
+            ReplaceRegexInFiles(project.SourceDirectoryPath +"/" +angularProjectFileName, versionJsonRegex, version); 
+            /*project.json*/
+            ReplaceRegexInFiles(project.SourceDirectoryPath +"/" +projectDetailFileName, versionJsonRegex, version);   
+            ReplaceRegexInFiles(project.SourceDirectoryPath +"/" +projectDetailFileName, commitShaJsonRegex, commit);                                                                      
+        }
    });
    
 
@@ -167,16 +207,21 @@ Task("Build-Frontend")
     .Does(() =>
     {
         //Build Angular frontend project using Angular cli
-        var runSettings = new NpmRunScriptSettings {
-        ScriptName = "ng",
-        WorkingDirectory = Directory(angularFolderPath),
-        LogLevel = NpmLogLevel.Warn
-        };
-        runSettings.Arguments.Add("build");
-        // runSettings.Arguments.Add("--prod");
-        // runSettings.Arguments.Add("--build-optimizer");
-        // runSettings.Arguments.Add("--progress false");
-        NpmRunScript(runSettings);
+        foreach(AngualrProject project in angualrProjects)
+        {
+            Information("Angalr project ng build: " + project.SourceDirectoryPath);
+            var runSettings = new NpmRunScriptSettings 
+            {
+                ScriptName = "ng",
+                WorkingDirectory = Directory(project.SourceDirectoryPath),
+                LogLevel = NpmLogLevel.Warn
+            };
+            runSettings.Arguments.Add("build");
+            // runSettings.Arguments.Add("--prod");
+            // runSettings.Arguments.Add("--build-optimizer");
+            // runSettings.Arguments.Add("--progress false");
+            NpmRunScript(runSettings);    
+        }
     });
 
 

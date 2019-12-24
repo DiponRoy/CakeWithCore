@@ -5,10 +5,4 @@
     <Version>0.1.0</Version>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="project.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

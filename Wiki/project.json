@@ -1,0 +1,11 @@
+{
+  "version": "x.x.x",
+  "commit": "xxxxxxx",
+  "details": [],
+  "about": "",
+
+  /*set after publish*/
+  "publishVersion": "x.x.x",
+  "publishCommit": "xxxxxxx",
+  "publishBranch": "xxx/yyyy"
+}

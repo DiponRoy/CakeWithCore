@@ -1,7 +1,0 @@
-{
-  "version": "0.1.0",
-  /*set after publish*/
-  "publishVersion": "x.x.x",
-  "publishCommit": "xxxxxxx",
-  "publishBranch": "xxx/yyyy"
-}

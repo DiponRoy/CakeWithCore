@@ -49,6 +49,14 @@ Angular:
 https://stackoverflow.com/questions/47344636/cake-build-angular-application-to-deploy-to-azure
 https://github.com/IFRCGo/cbs/blob/master/Build/build.cake
 
+copy project.json file from root to dist https://stackoverflow.com/questions/40567449/using-angular-cli-build-to-copy-a-file-directory
+{ "glob": "project.json", "input": "./", "output": "/" }
+
+Enviroment file: 
+https://stackoverflow.com/questions/51337048/how-to-deploy-same-angular-build-dist-to-multiple-environments-with-different
+https://www.jvandemo.com/how-to-use-environment-variables-to-configure-your-angular-application-without-a-rebuild/
+
+
 Nuget:
 ------
 https://rimdev.io/dotnet-full-framework-build-test-and-deploy-using-cake-and-appveyor/

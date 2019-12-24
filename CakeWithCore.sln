@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wiki", "Wiki", "{150656EB-5
 	ProjectSection(SolutionItems) = preProject
 		Wiki\done.txt = Wiki\done.txt
 		Wiki\init.txt = Wiki\init.txt
+		Wiki\project.json = Wiki\project.json
 		Wiki\tools.txt = Wiki\tools.txt
 	EndProjectSection
 EndProject
@@ -36,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.MSTest", "Test.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.xUnit", "Test.Unit.xUnit\Test.Unit.xUnit.csproj", "{18B00B5F-EF0D-4343-8E64-87E67AA9DDBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.All.Angular", "Web.All.Angular\Web.All.Angular.csproj", "{B195F0E5-75BE-4EDD-9935-F8FDBC3FAF9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.All.Angular", "Web.All.Angular\Web.All.Angular.csproj", "{B195F0E5-75BE-4EDD-9935-F8FDBC3FAF9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
