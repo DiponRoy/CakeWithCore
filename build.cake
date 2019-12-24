@@ -25,7 +25,7 @@ var unitTestReportPath = auditReportPath +"/UnitTest";
 var codeCoverReportPath = auditReportPath +"/CodeCover";
 
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/*.csproj";
-var angularFolderPath = rootPath +"/Web.Ui.Angular/app";
+var angularFolderPath = rootPath +"/Web.Ui.Angular/ClientApp";
 var angualrPackageJsonPath = angularFolderPath +"/package.json";
 
 var versionJsonRegex = "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"";
