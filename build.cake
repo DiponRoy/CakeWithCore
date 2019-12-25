@@ -16,7 +16,7 @@ var projectDetailFileName = "project.json";
 var backendProjectAssemblyName = "*.csproj";
 var backendProjectPattern = rootPath +"/**/" +backendProjectAssemblyName;
 var unitTestProjectPattern = rootPath +"/Test.Unit.*/**/" +backendProjectAssemblyName;
-
+var angularProjectFileName = "package.json";
 
 var publishPath = "." +"/Publish";
 
@@ -31,16 +31,15 @@ var auditReportPath = auditPath +"/Reports";
 var unitTestReportPath = auditReportPath +"/UnitTest";
 var codeCoverReportPath = auditReportPath +"/CodeCover";
 
-var angularProjectFileName = "package.json";
-
 var versionXmlRegex = "<Version>(.*)</Version>";
 var versionJsonRegex = "\"(version)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var commitShaJsonRegex = "\"(commit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
-var publishVersionFilePattern = publishPath +"/**/project.json";
+var publishVersionFilePattern = publishPath +"/**/" +projectDetailFileName;
 var publishBranchJsonRegex = "\"(publishBranch)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishVersionJsonRegex = "\"(publishVersion)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishCommitShaJsonRegex = "\"(publishCommit)\":\\s*\"((\\\\\"|[^\"])*)\"";
+var publishTimestampJsonRegex = "\"(publishTimestamp)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
 /*deploy*/
 string webDeployAbsoluteRootPath = "C:\\inetpub\\wwwroot\\CareCore";
@@ -447,8 +446,11 @@ Task("Set-Publish-Version")
         string version = "publishVersion".Quote() +": " +versionInfo.SemVer.Quote();  
         string commit = "publishCommit".Quote() +": " +versionInfo.Sha.Quote();     
         string branchName = "publishBranch".Quote() +": " +versionInfo.BranchName.Quote();
-        // Information(DateTime.Now.ToString("dd-MMM,yyyy HH:mm:ss(24)"));
-        // Information(DateTime.UtcNow.ToString("dd-MMM,yyyy HH:mm:ss(24)"));
+        string timestamp = "publishTimestamp".Quote() +": " +(
+            DateTime.Now.ToString("dd-MMM,yyyy HH:mm:ss") +"(24hr Local)"
+            +", "
+            +DateTime.UtcNow.ToString("dd-MMM,yyyy HH:mm:ss") +"(24hr UTC)"
+        ).Quote();
 
         var projectVersonFiles = GetFiles(publishVersionFilePattern);
         foreach(var projectJson in projectVersonFiles)
@@ -456,7 +458,8 @@ Task("Set-Publish-Version")
             string path = projectJson.ToString();
             ReplaceRegexInFiles(path, publishVersionJsonRegex, version);
             ReplaceRegexInFiles(path, publishCommitShaJsonRegex, commit);                       
-            ReplaceRegexInFiles(path, publishBranchJsonRegex, branchName);                       
+            ReplaceRegexInFiles(path, publishBranchJsonRegex, branchName);        
+            ReplaceRegexInFiles(path, publishTimestampJsonRegex, timestamp);                                      
         }
     });     
 

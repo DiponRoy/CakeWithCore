@@ -5,6 +5,7 @@
   "about": "",
 
   /*set after publish*/
+  "publishTimestamp": "01-Jan,0001",
   "publishVersion": "x.x.x",
   "publishCommit": "xxxxxxx",
   "publishBranch": "xxx/yyyy"
