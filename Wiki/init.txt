@@ -1,3 +1,9 @@
+dotnet publish -c Release --no-restore
+dotnet publish -c Release -r win10-x64
+
+dotnet publish -c Release -r win10-x64 --no-restore
+
+
 Started:
 --------
 https://medium.com/about-coding/introduction-to-build-automation-with-cake-c-make-88d8063b70c4

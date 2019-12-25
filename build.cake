@@ -7,6 +7,7 @@
 // Target - The task you want to start. Runs the Default task if not specified.
 var target = Argument("Target", "Default");
 var configuration = Argument("Configuration", "Release");
+var runtime = Argument("Runtime", "--runtime win10-x64");
 Information($"Running target {target} in configuration {configuration}");
 
 var rootPath = ".";
@@ -41,14 +42,28 @@ var publishBranchJsonRegex = "\"(publishBranch)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishVersionJsonRegex = "\"(publishVersion)\":\\s*\"((\\\\\"|[^\"])*)\"";
 var publishCommitShaJsonRegex = "\"(publishCommit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 
+/*deploy*/
+string webDeployAbsoluteRootPath = "C:\\inetpub\\wwwroot\\CareCore";
+
 
 public class AngualrProject
 {
 	public string SourceDirectoryPath { get; set; }
     public string ActualPublishDirectoryPath { get; set; }      /*angualr cli build here*/
 	public string PublishDirectoryPath { get; set; }
-	// public string DeployDirectoryPath { get; set; }	
-	// public string DeployArchiveDirectoryPath { get; set; }	
+}
+
+public class WebProject
+{
+	public string CsprojFilePath { get; set; }
+	public string PublishDirectoryPath { get; set; }
+    public string DeployAbsolutePath { get; set; }
+}
+
+public class ExeProject
+{
+	public string CsprojFilePath { get; set; }
+	public string PublishDirectoryPath { get; set; }
 }
 
 List<AngualrProject> angualrProjects = new List<AngualrProject>()
@@ -56,7 +71,6 @@ List<AngualrProject> angualrProjects = new List<AngualrProject>()
 	new AngualrProject()
 	{
 		SourceDirectoryPath = rootPath +"/Web.Ui.Angular/ClientApp",
-
         ActualPublishDirectoryPath = rootPath +"/Web.Ui.Angular/wwwroot",
         PublishDirectoryPath = publishPath +"/Web.Ui",
 	},
@@ -65,6 +79,45 @@ List<AngualrProject> angualrProjects = new List<AngualrProject>()
 		SourceDirectoryPath = rootPath +"/Web.All.Angular/ClientApp"
 	}
 };
+
+List<ExeProject> exeProjects = new List<ExeProject>()
+{
+	new ExeProject()
+	{
+		CsprojFilePath = rootPath +"/Cons.All/Cons.All.csproj",
+        PublishDirectoryPath = publishPath +"/Cons.All",
+	}
+};
+
+List<WebProject> webProjects = new List<WebProject>()
+{
+	new WebProject()
+	{
+		CsprojFilePath = rootPath +"/Web.All/Web.All.csproj",
+        PublishDirectoryPath = publishPath +"/Web.All",
+        DeployAbsolutePath = webDeployAbsoluteRootPath +"\\Web.All",
+	},
+	new WebProject()
+	{
+		CsprojFilePath = rootPath +"/Web.Api/Web.Api.csproj",
+        PublishDirectoryPath = publishPath +"/Web.Api",
+        DeployAbsolutePath = webDeployAbsoluteRootPath +"\\Web.Api",
+	},
+	new WebProject()
+	{
+		CsprojFilePath = rootPath +"/Web.Ui.Angular/Web.Ui.Angular.csproj",
+        PublishDirectoryPath = publishPath +"/Web.Ui.Angular",
+        DeployAbsolutePath = webDeployAbsoluteRootPath +"\\Web.Ui.Angular",
+	},
+	new WebProject()
+	{
+		CsprojFilePath = rootPath +"/Web.All.Angular/Web.All.Angular.csproj",
+        PublishDirectoryPath = publishPath +"/Web.All.Angular",
+        DeployAbsolutePath = webDeployAbsoluteRootPath +"\\Web.All.Angular",
+	}
+};
+
+
 
 
 public void CreateOrCleanDirectory(string path)
@@ -97,7 +150,7 @@ Task("Clean")
         {
             CleanDirectories(path + "/bin");
             CleanDirectories(path + "/obj");
-            // CleanDirectories(path + "/wwwroot"); /*not a good idea, razor projects may have static files*/
+            //CleanDirectories(path + "/wwwroot"); /*not a good idea, razor projects may have static files*/
         }
         paths = GetFiles(unitTestProjectPattern).Select(x => x.GetDirectory());
         foreach(var path in paths)
@@ -142,20 +195,6 @@ Task("Restore")
 
 Task("Version-Backend")
    .Does(() => {
-        //no AssemblyInfo.cs file in .net core
-        // GitVersion(new GitVersionSettings{
-        //     UpdateAssemblyInfo = true,
-        //     OutputType = GitVersionOutput.BuildServer
-        // });
-
-        // ReplaceRegexInFiles("./your/AssemblyInfo.cs", 
-        //             "(?<=AssemblyVersion\\(\")(.+?)(?=\"\\))", 
-        //             yourVersion);
-
-        // var updatedProjectJson = FileReadText(projectVersionFilePath);
-        // updatedProjectJson = updatedProjectJson.Replace("x-pvn-x.x.x", version);
-        // FileWriteText(projectVersionFilePath, updatedProjectJson);
-
         GitVersion gitVersion = Version();
         string version = gitVersion.SemVer;
         string commit= gitVersion.Sha;
@@ -193,6 +232,10 @@ Task("Version-Frontend")
             ReplaceRegexInFiles(project.SourceDirectoryPath +"/" +projectDetailFileName, commitShaJsonRegex, commit);                                                                      
         }
    });
+
+Task("Version")
+    .IsDependentOn("Version-Backend")
+    .IsDependentOn("Version-Frontend");
    
 
 // Build c# code using the build configuration specified as an argument.
@@ -323,50 +366,30 @@ Task("Test")
         }
     });
 
-// Publish the app to the /Publish folder
-Task("Publish")
-    .IsDependentOn("Publish-Frontend")
-    .Does(() =>
+/*create exe*/
+ Task("Publish-Exe")   
+    .Does(() => 
     {
-        DotNetCorePublish(
-            rootPath +"/Web.All/Web.All.csproj",
-            new DotNetCorePublishSettings()
-            {
-                Configuration = configuration,
-                OutputDirectory = Directory(publishPath +"/Web.All"),
-                ArgumentCustomization = args => args.Append("--no-restore"),
-            });
+        foreach(ExeProject project in exeProjects)
+        {
+            Information("Publish exe project: " +project.CsprojFilePath);
+            DotNetCorePublish(
+                project.CsprojFilePath,
+                new DotNetCorePublishSettings()
+                {
+                    Configuration = configuration,
+                    OutputDirectory = Directory(project.PublishDirectoryPath),
+                    ArgumentCustomization = args => args.Append(runtime),
+                    // ArgumentCustomization = args => args.Append("--no-restore"),
+                    // ArgumentCustomization = args => args.Append(runtime).Append("--no-restore"),
+                });
+        }  
+    });
 
-		DotNetCorePublish(
-            rootPath +"/Web.Api/Web.Api.csproj",
-            new DotNetCorePublishSettings()
-            {
-                Configuration = configuration,
-                OutputDirectory = Directory(publishPath +"/Web.Api"),
-                ArgumentCustomization = args => args.Append("--no-restore"),
-            });
-
-		DotNetCorePublish(
-            rootPath +"/Cons.All/Cons.All.csproj",
-            new DotNetCorePublishSettings()
-            {
-                Configuration = configuration,
-                OutputDirectory = Directory(publishPath +"/Cons.All"),
-				//ArgumentCustomization = args => args.Append("--no-restore"),
-                ArgumentCustomization = args => args.Append("--runtime win10-x64"),
-            });
-
-        DotNetCorePublish(
-            rootPath +"/Web.Ui.Angular/Web.Ui.Angular.csproj",
-            new DotNetCorePublishSettings()
-            {
-                Configuration = configuration,
-                OutputDirectory = Directory(publishPath +"/Web.Ui"),
-                ArgumentCustomization = args => args.Append("--no-restore"),
-            });
-
-
-        /*create nuget*/
+/*create nuget*/
+ Task("Publish-NuGet")   
+    .Does(() => 
+    {
 		NuGetPack(
             rootPath +"/Utility.Core/Utility.Core.csproj",
 			new NuGetPackSettings
@@ -398,8 +421,27 @@ Task("Publish")
 			});
     });
 
-// add project version from git branch to project.json after publish
-Task("Version")
+
+//publish web projects
+ Task("Publish-Web")
+    .Does(() => 
+    {
+        foreach(WebProject project in webProjects)
+        {
+            Information("Publish web project: " +project.CsprojFilePath);
+            DotNetCorePublish(
+                project.CsprojFilePath,
+                new DotNetCorePublishSettings()
+                {
+                    Configuration = configuration,
+                    OutputDirectory = Directory(project.PublishDirectoryPath),
+                    ArgumentCustomization = args => args.Append(runtime),
+                });
+        }
+    }); 
+
+ // add project version from git branch to project.json after publish
+Task("Set-Publish-Version")
     .Does(() => {
         GitVersion versionInfo = Version();
         string version = "publishVersion".Quote() +": " +versionInfo.SemVer.Quote();  
@@ -415,18 +457,34 @@ Task("Version")
             ReplaceRegexInFiles(path, publishVersionJsonRegex, version);
             ReplaceRegexInFiles(path, publishCommitShaJsonRegex, commit);                       
             ReplaceRegexInFiles(path, publishBranchJsonRegex, branchName);                       
-
-            // var updatedProjectJson = FileReadText(projectJson);
-            // updatedProjectJson = updatedProjectJson.Replace("pvn-x.x.x", versionInfo.SemVer);
-            // updatedProjectJson = updatedProjectJson.Replace("commit-sha-x", versionInfo.Sha);
-            // FileWriteText(projectJson, updatedProjectJson);
         }
-    });
+    });     
+
+// Publish the app to the /Publish folder
+Task("Publish")
+    .IsDependentOn("Publish-Frontend")
+    .IsDependentOn("Publish-NuGet")
+    .IsDependentOn("Publish-Exe")
+    .IsDependentOn("Publish-Web")
+    .IsDependentOn("Set-Publish-Version");
+
+ Task("Deploy")
+    .Does(() => 
+    {
+        foreach(WebProject project in webProjects)
+        {
+            Information("Deploying web project from: " +project.PublishDirectoryPath);
+
+            CreateOrCleanDirectory(project.DeployAbsolutePath);
+            CopyFiles(project.PublishDirectoryPath +"/*", project.DeployAbsolutePath);
+        }
+    });   
 
 // A meta-task that runs all the steps to Build and Test the app
 Task("BuildAndTest")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
+    .IsDependentOn("Version")
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 
@@ -436,7 +494,7 @@ Task("Default")
     .IsDependentOn("BuildAndTest")
     .IsDependentOn("Publish")
     .IsDependentOn("Report")
-    .IsDependentOn("Version");
+    .IsDependentOn("Deploy");
 
 // Executes the task specified in the target argument.
 RunTarget(target);
