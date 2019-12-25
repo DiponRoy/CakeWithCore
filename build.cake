@@ -45,16 +45,20 @@ var publishCommitShaJsonRegex = "\"(publishCommit)\":\\s*\"((\\\\\"|[^\"])*)\"";
 public class AngualrProject
 {
 	public string SourceDirectoryPath { get; set; }
+    public string ActualPublishDirectoryPath { get; set; }      /*angualr cli build here*/
 	public string PublishDirectoryPath { get; set; }
-	public string DeployDirectoryPath { get; set; }	
-	public string DeployArchiveDirectoryPath { get; set; }	
+	// public string DeployDirectoryPath { get; set; }	
+	// public string DeployArchiveDirectoryPath { get; set; }	
 }
 
 List<AngualrProject> angualrProjects = new List<AngualrProject>()
 {
 	new AngualrProject()
 	{
-		SourceDirectoryPath = rootPath +"/Web.Ui.Angular/ClientApp"
+		SourceDirectoryPath = rootPath +"/Web.Ui.Angular/ClientApp",
+
+        ActualPublishDirectoryPath = rootPath +"/Web.Ui.Angular/wwwroot",
+        PublishDirectoryPath = publishPath +"/Web.Ui",
 	},
 	new AngualrProject()
 	{
@@ -93,6 +97,7 @@ Task("Clean")
         {
             CleanDirectories(path + "/bin");
             CleanDirectories(path + "/obj");
+            // CleanDirectories(path + "/wwwroot"); /*not a good idea, razor projects may have static files*/
         }
         paths = GetFiles(unitTestProjectPattern).Select(x => x.GetDirectory());
         foreach(var path in paths)
@@ -217,9 +222,6 @@ Task("Build-Frontend")
                 LogLevel = NpmLogLevel.Warn
             };
             runSettings.Arguments.Add("build");
-            // runSettings.Arguments.Add("--prod");
-            // runSettings.Arguments.Add("--build-optimizer");
-            // runSettings.Arguments.Add("--progress false");
             NpmRunScript(runSettings);    
         }
     });
@@ -291,8 +293,39 @@ Task("Test")
     .IsDependentOn("Test-Backend")
     .IsDependentOn("Test-Frontend");
 
+//publish angualr apps
+ Task("Publish-Frontend")
+    .Does(() => 
+    {
+        foreach(AngualrProject project in angualrProjects)
+        {
+            Information("Angalr project ng build --prod: " + project.SourceDirectoryPath);
+
+            var runSettings = new NpmRunScriptSettings 
+            {
+                ScriptName = "ng",
+                WorkingDirectory = Directory(project.SourceDirectoryPath),
+                LogLevel = NpmLogLevel.Warn
+            };
+            runSettings.Arguments.Add("build");
+            runSettings.Arguments.Add("--prod");
+            runSettings.Arguments.Add("--build-optimizer");
+            runSettings.Arguments.Add("--progress false");
+            //runSettings.Arguments.Add("--output-path customDist");    /*absolute doesn't work*/
+            NpmRunScript(runSettings);    
+
+            /*copy build files to publish location*/
+            if(!string.IsNullOrEmpty(project.ActualPublishDirectoryPath) && !string.IsNullOrEmpty(project.PublishDirectoryPath))
+            {
+                CreateOrCleanDirectory(project.PublishDirectoryPath);
+                CopyFiles(project.ActualPublishDirectoryPath +"/*", project.PublishDirectoryPath);
+            }
+        }
+    });
+
 // Publish the app to the /Publish folder
 Task("Publish")
+    .IsDependentOn("Publish-Frontend")
     .Does(() =>
     {
         DotNetCorePublish(
@@ -314,15 +347,6 @@ Task("Publish")
             });
 
 		DotNetCorePublish(
-            rootPath +"/Web.Ui.Angular/Web.Ui.Angular.csproj",
-            new DotNetCorePublishSettings()
-            {
-                Configuration = configuration,
-                OutputDirectory = Directory(publishPath +"/Web.Ui"),
-                ArgumentCustomization = args => args.Append("--no-restore"),
-            });
-
-		DotNetCorePublish(
             rootPath +"/Cons.All/Cons.All.csproj",
             new DotNetCorePublishSettings()
             {
@@ -330,6 +354,15 @@ Task("Publish")
                 OutputDirectory = Directory(publishPath +"/Cons.All"),
 				//ArgumentCustomization = args => args.Append("--no-restore"),
                 ArgumentCustomization = args => args.Append("--runtime win10-x64"),
+            });
+
+        DotNetCorePublish(
+            rootPath +"/Web.Ui.Angular/Web.Ui.Angular.csproj",
+            new DotNetCorePublishSettings()
+            {
+                Configuration = configuration,
+                OutputDirectory = Directory(publishPath +"/Web.Ui"),
+                ArgumentCustomization = args => args.Append("--no-restore"),
             });
 
 
@@ -363,7 +396,6 @@ Task("Publish")
 				Files                   = new [] { new NuSpecContent {Source = "bin/TestNuGet.dll", Target = "bin"} },
 				BasePath                = "./src/TestNuGet/bin/release",
 			});
-
     });
 
 // add project version from git branch to project.json after publish
