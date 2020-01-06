@@ -65,6 +65,12 @@ public class ExeProject
 	public string PublishDirectoryPath { get; set; }
 }
 
+public class NuGetProject
+{
+	public string CsprojFilePath { get; set; }
+	public string PublishDirectoryPath { get; set; }
+}
+
 List<AngualrProject> angualrProjects = new List<AngualrProject>()
 {
 	new AngualrProject()
@@ -85,6 +91,15 @@ List<ExeProject> exeProjects = new List<ExeProject>()
 	{
 		CsprojFilePath = rootPath +"/Cons.All/Cons.All.csproj",
         PublishDirectoryPath = publishPath +"/Cons.All",
+	}
+};
+
+List<NuGetProject> nuGetProjects = new List<NuGetProject>()
+{
+	new NuGetProject()
+	{
+		CsprojFilePath = rootPath +"/Utility.Core/Utility.Core.csproj",
+        PublishDirectoryPath = publishPath +"/NuGet.Utility.Core"
 	}
 };
 
@@ -132,11 +147,7 @@ public void CreateOrCleanDirectory(string path)
     }
 }
 
-public GitVersion Version()
-{
-    GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
-    return versionInfo;
-}
+GitVersion versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
 
 
 // Deletes the contents of the Publish folder if it contains anything from a previous build.
@@ -194,9 +205,8 @@ Task("Restore")
 
 Task("Version-Backend")
    .Does(() => {
-        GitVersion gitVersion = Version();
-        string version = gitVersion.SemVer;
-        string commit= gitVersion.Sha;
+        string version = versionInfo.SemVer;
+        string commit= versionInfo.Sha;
 
         var paths = GetFiles(backendProjectPattern).Select(x => x.GetDirectory());
         foreach(var path in paths)
@@ -217,7 +227,6 @@ Task("Version-Backend")
 
 Task("Version-Frontend")
    .Does(() => {
-        GitVersion versionInfo = Version();
         string version = "version".Quote() +": " +versionInfo.SemVer.Quote();
         string commit = "commit".Quote() +": " +versionInfo.Sha.Quote();     
 
@@ -393,17 +402,19 @@ Task("Test")
             rootPath +"/Utility.Core/Utility.Core.csproj",
 			new NuGetPackSettings
 			{
-                //ArgumentCustomization = args => args.Append("-Properties Configuration="+configuration),
-				Properties = new Dictionary<string, string>
+
+                Properties = new Dictionary<string, string>
 				{
 					{ "Configuration", configuration }
 				},
-				OutputDirectory = Directory(publishPath +"/NuGet.Utility.Core"),
-				Id                      = "TestNuGet",
-				Version                 = "0.0.0.1",
-				Title                   = "The tile of the package",
+                //ArgumentCustomization = args => args.Append("-Properties Configuration="+configuration),
+                OutputDirectory = Directory(publishPath +"/NuGet.Utility.Core"),
+				Version                 = versionInfo.SemVer,
 				Authors                 = new[] {"Dipon Roy"},
 				Owners                  = new[] {"Dipon Roy"},
+
+				Id                      = "TestNuGet",
+				Title                   = "The tile of the package",
 				Description             = "The description of the package",
 				Summary                 = "Excellent summary of what the package does",
 				ProjectUrl              = new Uri("https://github.com/SomeUser/TestNuGet/"),
@@ -442,7 +453,6 @@ Task("Test")
  // add project version from git branch to project.json after publish
 Task("Set-Publish-Version")
     .Does(() => {
-        GitVersion versionInfo = Version();
         string version = "publishVersion".Quote() +": " +versionInfo.SemVer.Quote();  
         string commit = "publishCommit".Quote() +": " +versionInfo.Sha.Quote();     
         string branchName = "publishBranch".Quote() +": " +versionInfo.BranchName.Quote();
@@ -496,7 +506,10 @@ Task("BuildAndTest")
 Task("Default")
     .IsDependentOn("BuildAndTest")
     .IsDependentOn("Publish")
-    .IsDependentOn("Report")
+    .IsDependentOn("Report");
+
+Task("Deployment")
+    .IsDependentOn("Default")
     .IsDependentOn("Deploy");
 
 // Executes the task specified in the target argument.
