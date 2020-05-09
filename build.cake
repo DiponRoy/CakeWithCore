@@ -369,7 +369,7 @@ Task("Test")
             if(!string.IsNullOrEmpty(project.ActualPublishDirectoryPath) && !string.IsNullOrEmpty(project.PublishDirectoryPath))
             {
                 CreateOrCleanDirectory(project.PublishDirectoryPath);
-                CopyFiles(project.ActualPublishDirectoryPath +"/*", project.PublishDirectoryPath);
+                CopyFiles(project.ActualPublishDirectoryPath +"/**/*", project.PublishDirectoryPath, true);
             }
         }
     });
